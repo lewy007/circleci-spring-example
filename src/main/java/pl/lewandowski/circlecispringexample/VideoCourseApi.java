@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class VideoCourseApi {
 
-    private VideoCourseRepository videoCourseRepository;
+    private final VideoCourseRepository videoCourseRepository;
 
     @Autowired
     public VideoCourseApi(VideoCourseRepository videoCourseRepository) {
@@ -20,7 +20,7 @@ public class VideoCourseApi {
 
     @GetMapping
     public List<VideoCourse> getVideoCourses() {
-        videoCourseRepository.findAll().stream().filter(element -> element.getName().equals("Docker od podstaw"));
+//        videoCourseRepository.findAll().stream().filter(element -> element.getName().equals("Docker od podstaw"));
         return videoCourseRepository.findAll();
     }
 

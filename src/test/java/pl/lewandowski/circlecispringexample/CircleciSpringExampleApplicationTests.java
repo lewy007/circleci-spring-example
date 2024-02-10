@@ -1,13 +1,24 @@
 package pl.lewandowski.circlecispringexample;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CircleciSpringExampleApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+
+    @Autowired
+    private VideoCourseRepository videoCourseRepository;
+
+    @Test
+    public void checkNumberOfElements() {
+        VideoCourse videoCourse = new VideoCourse();
+        videoCourseRepository.save(videoCourse);
+        Assertions.assertEquals(1, videoCourseRepository.findAll().size());
+    }
 
 }
