@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # nazwy zmiennych sa nieprzypadkowe, wynikaja z uploadem na heroku
-      - image: openjdk:19-jdk-alpine
+      - image: openjdk:7-jdk-alpine
         environment:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
           JDBC_DATABASE_USERNAME: root
