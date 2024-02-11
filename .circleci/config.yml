@@ -11,8 +11,8 @@ jobs:
       - image: cimg/openjdk:17.0
         environment:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
-          JDBC_DATABASE_USERNAME: root
-          JDBC_DATABASE_PASSWORD: root
+          JDBC_DATABASE_USERNAME: postgres
+          JDBC_DATABASE_PASSWORD: password
 
       - image: cimg/postgres:15.0
         environment:
