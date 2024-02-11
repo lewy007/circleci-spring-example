@@ -17,8 +17,6 @@ jobs:
       - image: cimg/postgres:15.0
         environment:
           POSTGRES_DB: circle_db
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
 
 
 
