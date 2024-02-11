@@ -8,13 +8,13 @@ jobs:
     docker:
       # specify the version you desire here
       # nazwy zmiennych sa nieprzypadkowe, wynikaja z uploadem na heroku
-      - image: circleci/java:latest
+      - image: openjdk:19-jdk-alpine3.16
         environment:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
           JDBC_DATABASE_USERNAME: root
           JDBC_DATABASE_PASSWORD: root
 
-      - image: circleci/postgres:9-bullseye-ram
+      - image: circleci/postgres:9.6.5-alpine-ram
         environment:
           POSTGRES_DB: circle_db
 
