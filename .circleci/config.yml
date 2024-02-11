@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # nazwy zmiennych sa nieprzypadkowe, wynikaja z uploadem na heroku
-      - image: circleci/openjdk:11-buster-node-browsers-legacy
+      - image: cimg/openjdk:17.0
         environment:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
           JDBC_DATABASE_USERNAME: root
