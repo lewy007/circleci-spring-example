@@ -53,7 +53,7 @@ jobs:
   # zmienne HEROKU pobieramy z Heroku i dodajemy w CircleCi
   deploy:
     docker:
-      - image: circleci/buildpack-deps:trusty
+      - image: circleci/buildpack-deps:bionic-browsers-legacy
     steps:
       - checkout
       - run:
