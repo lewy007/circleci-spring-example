@@ -9,9 +9,6 @@ jobs:
       # specify the version you desire here
       # nazwy zmiennych sa nieprzypadkowe, wynikaja z uploadem na heroku
       - image: maven:3.8.4-openjdk-17-slim
-        environment:
-          JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
-
       - image: cimg/postgres:15.0
         environment:
           POSTGRES_DB: circle_db
@@ -34,12 +31,6 @@ jobs:
     steps:
       - checkout
 
-      # Instalacja Maven
-      - run: sudo apt-get install -y maven
-
-      # Budowa projektu Maven
-      - run: mvn -B clean package
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -59,8 +50,7 @@ jobs:
   # zmienne HEROKU pobieramy z Heroku i dodajemy w CircleCi
   deploy:
     docker:
-      - image: circleci/python:3.8
-    working_directory: ~/circleci-spring-example
+      - image: circleci/buildpack-deps:trusty
     steps:
       - checkout
       - run:
