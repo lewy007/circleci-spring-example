@@ -14,7 +14,10 @@
     <name>circleci-spring-example</name>
     <description>circleci-spring-example</description>
     <properties>
-        <java.version>17</java.version>
+        <!-- Change Java version to 11 as JDK 17 might not be fully supported by Spring Boot 3.2.2 -->
+        <java.version>11</java.version>
+        <!-- Specify Maven compiler version -->
+        <maven.compiler.release>11</maven.compiler.release>
     </properties>
     <dependencies>
         <dependency>
