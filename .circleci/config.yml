@@ -50,7 +50,7 @@ jobs:
   # zmienne HEROKU pobieramy z Heroku i dodajemy w CircleCi
   deploy:
     docker:
-      - image: cimg/base
+      - image: cimg/base:2022.09
     steps:
       - checkout
       - run:
