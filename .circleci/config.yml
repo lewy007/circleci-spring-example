@@ -69,7 +69,7 @@ workflows:
       - hold:
           type: approval
           requires:
-            - build
+            - build # only run deploy-via-git job if the build job has completed
       - deploy:
           requires:
             - hold
