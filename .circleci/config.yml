@@ -13,8 +13,8 @@ jobs:
       - image: maven:3.8.4-openjdk-17-slim
         environment:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
-          JDBC_DATABASE_USERNAME: postgres
-          JDBC_DATABASE_PASSWORD: password
+#          JDBC_DATABASE_USERNAME: postgres
+#          JDBC_DATABASE_PASSWORD: password
       - image: cimg/postgres:15.0
         environment:
           POSTGRES_DB: circle_db
