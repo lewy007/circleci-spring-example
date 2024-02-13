@@ -10,7 +10,7 @@ jobs:
     docker:
       # specify the version you desire here
       # nazwy zmiennych sa nieprzypadkowe, wynikaja z uploadem na heroku
-      - image: maven:3.8.4-openjdk-17-slim
+      - image: cimg/openjdk:17.0.9
         environment:
           JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
 #          JDBC_DATABASE_USERNAME: postgres
@@ -49,7 +49,7 @@ jobs:
   # zmienne HEROKU pobieramy z Heroku i dodajemy w CircleCi
   deploy:
     docker:
-      - image: cimg/base:2022.09
+      - image: cimg/base:stable # primary container will run the latest, production-ready base image
     # Authentication Heroku API Key
     description: |
       Verifies the Heroku API key has been added so we can authenticate.
