@@ -95,6 +95,6 @@ workflows:
       - deploy:
           requires:
             - hold
-#          filters:
-#            branches:
-#              only: master # only run deploy-via-git job on master branch
+          filters:
+            branches:
+              only: master # only run deploy-via-git job on master branch
