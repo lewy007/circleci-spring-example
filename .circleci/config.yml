@@ -75,6 +75,9 @@ jobs:
           name: Verify HEROKU_API_KEY is set
       - checkout
       - run:
+          name: Check HEROKU_APP_NAME
+          command: echo $HEROKU_APP_NAME
+      - run:
           name: Deploy app on heroku
           command: |
             git push 
