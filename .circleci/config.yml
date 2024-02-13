@@ -1,37 +1,91 @@
 version: 2.1
-
+orbs:
+  heroku: circleci/heroku@2.0.0
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:17
+      - image: cimg/openjdk:17.0.9
+        environment:
+          JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/circle_db
+      - image: cimg/postgres:15.0
+        environment:
+          POSTGRES_DB: circle_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+
+    working_directory: ~/circleci-spring-example
+
+    environment:
+      MAVEN_OPTS: -Xmx3200m
     steps:
       - checkout
-      - run: mvn -B clean install
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+      - run: mvn test
 
   deploy:
     docker:
-      - image: circleci/python:3.9
+      - image: cimg/base:stable
+    description: |
+      Verifies the Heroku API key has been added so we can authenticate.
+    parameters:
+      print-whoami:
+        default: false
+        description: Print the result of heroku auth:whoami.
+        type: boolean
     steps:
+      - run:
+          command: |
+            #!/bin/bash
+
+            if [[ $HEROKU_API_KEY == "" ]]; then
+              echo "No Heroku API key set, please set the HEROKU_API_KEY environment variable."
+              echo "This can be found by running the $(heroku auth:token) command locally."
+              exit 1
+            else
+              echo "Heroku API key found."
+            fi
+          environment:
+            PARAM_WHOAMI: <<parameters.print-whoami>>
+          name: Verify HEROKU_API_KEY is set
+
       - checkout
+      - run:
+          name: Check HEROKU_APP_NAME
+          command: echo $HEROKU_APP_NAME
       - run:
           name: Install Heroku CLI
           command: |
             curl https://cli-assets.heroku.com/install.sh | sh
-
       - run:
-          name: Deploy to Heroku
+          name: Deploy app on heroku
           command: |
-            git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME.git
+            heroku login -i
+            heroku git:remote -a $HEROKU_APP_NAME
             git push heroku master
 
 workflows:
-  version: 2
-  build_and_deploy:
+  #  version: 2
+  build-deploy:
     jobs:
       - build
+      - hold:
+          type: approval
+          requires:
+            - build # only run deploy-via-git job if the build job has completed
       - deploy:
           requires:
-            - build
+            - hold
           filters:
             branches:
-              only: master
+              only: master # only run deploy-via-git job on master branch
