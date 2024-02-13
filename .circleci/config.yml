@@ -3,8 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2.1
-#orbs:
-#  heroku: circleci/heroku@x.y
+orbs:
+  heroku: circleci/heroku@2.0.0
 jobs:
   build:
     docker:
@@ -57,7 +57,29 @@ jobs:
   deploy:
     docker:
       - image: cimg/base:2022.09
+    description: |
+      Verifies the Heroku API key has been added so we can authenticate.
+    parameters:
+      print-whoami:
+        default: false
+        description: Print the result of heroku auth:whoami.
+        type: boolean
     steps:
+      - run:
+          command: |
+            #!/bin/bash
+
+            if [[ $HEROKU_API_KEY == "" ]]; then
+              echo "No Heroku API key set, please set the HEROKU_API_KEY environment variable."
+              echo "This can be found by running the $(heroku auth:token) command locally."
+              exit 1
+            else
+              echo "Heroku API key found."
+            fi
+          environment:
+            PARAM_WHOAMI: <<parameters.print-whoami>>
+          name: Verify HEROKU_API_KEY is set
+#    steps:
       - checkout
       - run:
           name: Deploy app on heroku
