@@ -81,7 +81,7 @@ jobs:
           name: Deploy app on heroku
           command: |
             git push 
-            https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git
+            https://heroku:2c84ec5b-6a12-4b3e-a6b9-8450e85d0530@git.heroku.com/circleci-spring-example.git
 
 workflows:
   #  version: 2
