@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2.1
+#orbs:
+#  heroku: circleci/heroku@x.y
 jobs:
   build:
     docker:
@@ -12,8 +14,8 @@ jobs:
       - image: cimg/postgres:15.0
         environment:
           POSTGRES_DB: circle_db
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
 
 
 
